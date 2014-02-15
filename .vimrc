@@ -31,3 +31,26 @@ set grepprg=grep\ -nh
  
 " 検索結果のハイライトをEsc連打でクリアする
 nnoremap <ESC><ESC> :nohlsearch<CR>
+
+
+"--------------------
+" neobundleの設定
+"--------------------
+set nocompatible
+filetype plugin indent off
+
+if has('vim_starting')
+  set runtimepath+=~/dotfiles/.vim/bundle/neobundle.vim/
+    call neobundle#rc(expand('~/dotfiles/.vim/bundle/'))
+endif
+
+" インストールしたいプラグイン
+NeoBundle 'Shougo/neobundle.vim'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/vimproc'
+"NeoBundle 'The-NERD-tree'
+"NeoBundle 'The-NERD-Commenter'
+"NeoBundle 'Gist.vim'
+
+
+filetype plugin indent on

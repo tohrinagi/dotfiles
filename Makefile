@@ -1,4 +1,4 @@
-DOT_FILES = .zshrc .vimrc
+DOT_FILES = .zshrc .vimrc .vim
 
 all: zsh vim 
 
