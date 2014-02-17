@@ -1,45 +1,133 @@
+set nocompatible
+
 "--------------------
 " 基本的な設定
 "--------------------
-"新しい行のインデントを現在行と同じにする
-set autoindent
- 
 "バックアップファイルのディレクトリを指定する
 "set backupdir=$HOME/vimbackup
 set nobackup
 
-"クリップボードOSと連携する
-set clipboard=unnamed
- 
-"vi互換をオフする
-set nocompatible
- 
 "スワップファイル用のディレクトリを指定する
 "set directory=$HOME/vimbackup
 set noswapfile
 
-"タブの代わりに空白文字を指定する
-set expandtab
+"クリップボードOSと連携する
+set clipboard+=unnamed
+
+"カーソルキーで行末／行頭の移動可能に設定
+set whichwrap=b,s,[,],<,>
+"バックスペースでインデントや改行を削除できるようにする
+set backspace=indent,eol,start
+
+"複数ファイルの編集を可能にする
+set hidden
+
+"内容が更新されたら自動的に再読み込み
+set autoread
+
+"コマンドラインをTABで補完できるようにする
+set wildchar=<C-Z>
+
+"ターミナルで256表示を使う
+set t_Co=256
+
+"カーソルラインを表示する
+set cursorline
+
+"行番号の表示
+set number
+
+"--------------------
+"検索
+"--------------------
+"検索時　大文字小文字を区別する
+set noignorecase
+
+"大文字で検索されたら対象を大文字限定にする
+set smartcase
+
+"インクリメンタルサーチを有効にする
+set incsearch
+
+"強調表示
+set hlsearch
+
+" 検索結果のハイライトをEsc連打でクリアする
+nnoremap <ESC><ESC> :nohlsearch<CR>
+
+"--------------------
+"フォーマット設定
+"--------------------
+"自動的にインデントする
+set autoindent
+set smartindent
 
 "閉括弧が入力された時、対応する括弧を強調する
 set showmatch
  
-"新しい行を作った時に高度な自動インデントを行う
+"行頭の余白内でTabを打ち込むと'shiftwidth'の数だけインデントする
 set smarttab
  
-" grep検索を設定する
-set grepformat=%f:%l:%m,%f:%l%m,%f\ \ %l%m,%f
-set grepprg=grep\ -nh
- 
-" 検索結果のハイライトをEsc連打でクリアする
-nnoremap <ESC><ESC> :nohlsearch<CR>
+"タブ設定
+set expandtab
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 
+"switch caseを同じ列にする
+set cino=:0
+
+"Tab、行末の半角スペースを明示的に表示する
+set list
+set listchars=tab:^\ ,trail:~
+
+
+"--------------------
+"ステータスライン
+"--------------------
+"ステータスラインにコマンドを表示
+set showcmd
+
+"ステータスラインを常に表示
+set laststatus=2
+"ファイルナンバー表示
+set statusline=[%n]
+"ホスト名表示
+set statusline+=%{matchstr(hostname(),'\\w\\+')}@
+"ファイル名表示
+set statusline+=%<%F
+"変更のチェック表示
+set statusline+=%m
+"読み込み専用かどうか表示
+set statusline+=%r
+"ヘルプページなら[HELP]と表示
+set statusline+=%h
+"プレビューウインドウなら[Prevew]と表示
+set statusline+=%w
+"ファイルフォーマット表示
+set statusline+=[%{&fileformat}]
+"文字コード表示
+set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
+"ファイルタイプ表示
+set statusline+=%y
+
+"--------------------
+"キーマップ
+"--------------------
+noremap <unique> <script> <M-1> :tabn1<CR>:<BS>
+noremap <unique> <script> <M-2> :tabn2<CR>:<BS>
+noremap <unique> <script> <M-3> :tabn3<CR>:<BS>
+noremap <unique> <script> <M-4> :tabn4<CR>:<BS>
+noremap <unique> <script> <M-5> :tabn5<CR>:<BS>
+noremap <unique> <script> <M-6> :tabn6<CR>:<BS>
+noremap <unique> <script> <M-7> :tabn7<CR>:<BS>
+noremap <unique> <script> <M-8> :tabn8<CR>:<BS>
+noremap <unique> <script> <M-9> :tabn9<CR>:<BS>
+noremap <unique> <script> <M-0> :tabn10<CR>:<BS>
 
 "--------------------
 " neobundleの設定
 "--------------------
-set nocompatible
-filetype plugin indent off
 
 if has('vim_starting')
   set runtimepath+=~/dotfiles/.vim/bundle/neobundle.vim/
@@ -56,7 +144,7 @@ NeoBundle 'Shougo/neocomplcache'
 "NeoBundle 'The-NERD-Commenter'
 "NeoBundle 'Gist.vim'
 
-
+syntax on
 filetype plugin indent on
 
 "--------------------
