@@ -1,11 +1,13 @@
-DOT_FILES = .zshrc .vimrc .vim
+DOT_FILES = .zshrc .vimrc .vim .gvimrc
 
-all: zsh vim 
+all: zsh vim gvim
 
 zsh: $(foreach f, $(filter .zsh%, $(DOT_FILES)), link-dot-file-$(f))
 
 vim: $(foreach f, $(filter .vim%, $(DOT_FILES)), link-dot-file-$(f))
   
+vim: $(foreach f, $(filter .gvim%, $(DOT_FILES)), link-dot-file-$(f))
+
 .PHONY: clean
 clean: $(foreach f, $(DOT_FILES), unlink-dot-file-$(f))
   
