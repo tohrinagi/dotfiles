@@ -85,6 +85,9 @@ setopt interactive_comments
 # ディレクトリ名だけでcdする
 setopt auto_cd
 
+# cd後に自動でlsする
+function chpwd() { ls }
+
 # cd したら自動的にpushdする
 setopt auto_pushd
 # 重複したディレクトリを追加しない
