@@ -3,14 +3,15 @@
 "----------------------------------------------------------------------------
 if has('vim_starting')
   set runtimepath+=~/dotfiles/.vim/bundle/neobundle.vim/
-    call neobundle#rc(expand('~/dotfiles/.vim/bundle/'))
 endif
+call neobundle#rc(expand('~/dotfiles/.vim/bundle/'))
 
 " インストールしたいプラグイン
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neosnippet'
 
 syntax on
 filetype indent on
@@ -24,7 +25,7 @@ set nobackup                    "バックアップファイルのディレク�
 set noswapfile                  "スワップファイル用のディレクトリを指定する
 set hidden                      "複数ファイルの編集を可能にする
 set autoread                    "内容が更新されたら自動的に再読み込み
-set clipboard+=unnamed          "クリップボードOSと連携する
+set clipboard+=unnamed,autoselect          "クリップボードOSと連携する
 set backspace=indent,eol,start  "バックスペースでインデントや改行を削除できるようにする
 set wildchar=<C-Z>              "コマンドラインをTABで補完できるようにする
 set cursorline                  "カーソルラインを表示する
@@ -32,6 +33,7 @@ set number                      "行番号の表示
 set nocompatible
 "ターミナルで256表示を使う
 set t_Co=256
+set mouse=n                     "マウスON
 
 "----------------------------------------------------------------------------
 "検索
@@ -98,6 +100,9 @@ noremap <unique> <script> <M-0> :tabn10<CR>:<BS>
 "単語の上書きペースト
 nnoremap <silent> rp ciw<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
 
+"コピーした文字で繰り返し上書きペーストする
+vnoremap <silent> 0p "0p<CR>
+
 " 検索語に中央に移動
 map n nzz
 map N Nzz
@@ -143,4 +148,29 @@ if isdirectory($HOME . '/.vim/bundle/neocomplcache' )
 
   "最初に候補を選択する設定。便利だが誤爆しやすい。
   "let g:neocomplcache_enable_auto_select = 1
+endif
+
+" neosnippetの設定
+if isdirectory($HOME . '/.vim/bundle/neosnippet' )
+  " Plugin key-mappings.
+  imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+  smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+  xmap <C-k>     <Plug>(neosnippet_expand_target)
+  xmap <C-l>     <Plug>(neosnippet_start_unite_snippet_target)
+
+  " SuperTab like snippets behavior.
+  imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+   \ "\<Plug>(neosnippet_expand_or_jump)"
+   \: pumvisible() ? "\<C-n>" : "\<TAB>"
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+   \ "\<Plug>(neosnippet_expand_or_jump)"
+   \: "\<TAB>"
+
+  " For snippet_complete marker.
+  if has('conceal')
+    set conceallevel=2 concealcursor=i
+  endif
+
+  " Enable snipMate compatibility feature.
+  " let g:neosnippet#enable_snipmate_compatibility = 1
 endif
