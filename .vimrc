@@ -18,7 +18,7 @@ NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/neocomplcache-rsense'
+NeoBundle 'Shougo/neocomplcache-rsense', { 'autoload' : { 'filetype' : ['ruby'], }, }
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'vim-scripts/twilight'
@@ -46,6 +46,10 @@ set wildchar=<C-Z>              "コマンドラインをTABで補完できる�
 set cursorline                  "カーソルラインを表示する
 set number                      "行番号の表示
 set mouse=a                     "マウスON
+set scrolloff=5                 "スクロールし始める行数
+set vb t_vb=                    "ビープ音使用しない
+set whichwrap=b,s,h,l,<,>,[,],~ " 特定のキーに行頭および行末の回りこみ移動を許可する設定
+
 
 "----------------------------------------------------------------------------
 "カラー設定
@@ -210,7 +214,9 @@ if isdirectory($HOME . '/.vim/bundle/neosnippet' )
 endif
 
 "rsenseの設定
-
+if isdirectory($HOME . '/.vim/bundle/neocomplcache-rsense' )
+  let g:neocomplcache#sources#rsense#home_directory = $HOME . '/.vim/rsense'
+endif
 "vim-airlineの設定
 if isdirectory($HOME . '/.vim/bundle/vim-airline' )
   let g:airline_enable_branch = 0
