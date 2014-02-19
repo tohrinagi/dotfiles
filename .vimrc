@@ -1,3 +1,10 @@
+set nocompatible              "VIMにする 与える影響が大きいので最初にset
+
+"何で動いているか調べる
+let s:is_windows =  has('win16') || has('win32') || has('win64')
+let s:is_cygwin  =  has('win32unix')
+let s:is_cui     = !has('gui_running')
+
 "----------------------------------------------------------------------------
 " インストールするプラグインの設定
 "----------------------------------------------------------------------------
@@ -11,8 +18,15 @@ NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neocomplcache-rsense'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'vim-scripts/twilight'
+NeoBundle 'w0ng/vim-hybrid'
+NeoBundle 'jonathanfilip/vim-lucius'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'bling/vim-airline'
+
 
 syntax on
 filetype indent on
@@ -31,10 +45,28 @@ set backspace=indent,eol,start  "バックスペースでインデントや改�
 set wildchar=<C-Z>              "コマンドラインをTABで補完できるようにする
 set cursorline                  "カーソルラインを表示する
 set number                      "行番号の表示
-set nocompatible
-"ターミナルで256表示を使う
-set t_Co=256
 set mouse=n                     "マウスON
+
+"----------------------------------------------------------------------------
+"カラー設定
+"----------------------------------------------------------------------------
+" ターミナルタイプによるカラー設定
+if s:is_cygwin
+  if &term =~# '^xterm' && &t_Co < 256
+    set t_Co=256  " Extend terminal color of xterm
+  endif
+  if &term !=# 'cygwin'  " not in command prompt
+    " Change cursor shape depending on mode
+    let &t_ti .= "\e[1 q"
+    let &t_SI .= "\e[5 q"
+    let &t_EI .= "\e[1 q"
+    let &t_te .= "\e[0 q"
+  endif
+endif
+
+set background=dark
+let g:solarized_termcolors=256
+colorscheme solarized
 
 "----------------------------------------------------------------------------
 "検索
@@ -62,18 +94,19 @@ set listchars=tab:^\ ,trail:~
 "-------------------------------------------------------------------------------
 "ステータスライン
 "-------------------------------------------------------------------------------
-set showcmd                     "ステータスラインにコマンドを表示
+"vim-airlineを使うようになったのでコメントアウト
+"set showcmd                     "ステータスラインにコマンドを表示
 set laststatus=2                "ステータスラインを常に表示
-set statusline=[%n]             "ファイルナンバー表示
-set statusline+=%{matchstr(hostname(),'\\w\\+')}@   "ホスト名表示
-set statusline+=%<%F            "ファイル名表示
-set statusline+=%m              "変更のチェック表示
-set statusline+=%r              "読み込み専用かどうか表示
-set statusline+=%h              "ヘルプページなら[HELP]と表示
-set statusline+=%w              "プレビューウインドウなら[Prevew]と表示
-set statusline+=[%{&fileformat}]  "ファイルフォーマット表示
-set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]  "文字コード表示
-set statusline+=%y              "ファイルタイプ表示
+"set statusline=[%n]             "ファイルナンバー表示
+"set statusline+=%{matchstr(hostname(),'\\w\\+')}@   "ホスト名表示
+"set statusline+=%<%F            "ファイル名表示
+"set statusline+=%m              "変更のチェック表示
+"set statusline+=%r              "読み込み専用かどうか表示
+"set statusline+=%h              "ヘルプページなら[HELP]と表示
+"set statusline+=%w              "プレビューウインドウなら[Prevew]と表示
+"set statusline+=[%{&fileformat}]  "ファイルフォーマット表示
+"set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]  "文字コード表示
+"set statusline+=%y              "ファイルタイプ表示
 
 "-------------------------------------------------------------------------------
 " Mapping
@@ -174,4 +207,21 @@ if isdirectory($HOME . '/.vim/bundle/neosnippet' )
 
   " Enable snipMate compatibility feature.
   " let g:neosnippet#enable_snipmate_compatibility = 1
+endif
+
+"rsenseの設定
+
+"vim-airlineの設定
+if isdirectory($HOME . '/.vim/bundle/vim-airline' )
+  let g:airline_enable_branch = 0
+  let g:airline_section_b = "%t %M"
+  let g:airline_section_c = ''
+  let s:sep = " %{get(g:, 'airline_right_alt_sep', '')} "
+  let g:airline_section_x =
+        \ "%{strlen(&fileformat)?&fileformat:''}".s:sep.
+        \ "%{strlen(&fenc)?&fenc:&enc}".s:sep.
+        \ "%{strlen(&filetype)?&filetype:'no ft'}"
+  let g:airline_section_y = '%3p%%'
+  let g:airline_section_z = get(g:, 'airline_linecolumn_prefix', '').'%3l:%-2v'
+  let g:airline#extensions#whitespace#enabled = 0
 endif
