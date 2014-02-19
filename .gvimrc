@@ -1,10 +1,11 @@
 "色のテーマ指定
-:gui
-:colorscheme icansee
+gui
+set background=dark
+colorscheme solarized
 
 "ツールウィンドウを消す
 set guioptions-=T
 
 "FONT設定
-set gfn=Ricty:h10:b:cSHIFTJIS
-set gfw=Ricty:h10:b:cSHIFTJIS
+set gfn=Ricty:h13:b:cSHIFTJIS
+set gfw=Ricty:h13:b:cSHIFTJIS
