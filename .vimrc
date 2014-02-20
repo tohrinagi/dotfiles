@@ -17,7 +17,8 @@ call neobundle#rc(expand('~/dotfiles/.vim/bundle/'))
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc'
-NeoBundle 'Shougo/neocomplcache'
+NeoBundle has('lua') ? 'Shougo/neocomplete' : 'Shougo/neocomplcache'
+NeoBundle 'violetyk/neocomplete-php.vim'
 NeoBundle 'Shougo/neocomplcache-rsense', { 'autoload' : { 'filetype' : ['ruby'], }, }
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
@@ -147,8 +148,13 @@ map # #zz
 "-------------------------------------------------------------------------------
 " プラグイン設定
 "-------------------------------------------------------------------------------
-" neocomplcacheの設定
-if isdirectory($HOME . '/.vim/bundle/neocomplcache' )
+
+if neobundle#is_installed('neocomplete')
+  " neocomplete用設定
+  let g:neocomplete#enable_at_startup = 1
+  let g:neocomplete#enable_ignore_case = 1
+  let g:neocomplete#enable_smart_case = 1
+elseif neobundle#is_installed('neocomplcache')
   let g:acp_enableAtStartup = 0                 "ACPと競合するので強制OFF
   let g:neocomplcache_enable_at_startup = 1     "起動時に有効化
   let g:neocomplcache_enable_smart_case = 1     "大文字が入力されるまで大文字小文字の区別を無視する
@@ -174,7 +180,6 @@ if isdirectory($HOME . '/.vim/bundle/neocomplcache' )
   " <CR>: close popup and save indent.
   inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
   " <TAB>: completion.
-  inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
   " <C-h>, <BS>: close popup and delete backword char.
   inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
   inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
@@ -184,6 +189,9 @@ if isdirectory($HOME . '/.vim/bundle/neocomplcache' )
   "最初に候補を選択する設定。便利だが誤爆しやすい。
   "let g:neocomplcache_enable_auto_select = 1
 endif
+"TABでポップアップウィンドウの移動をする
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " neosnippetの設定
 if isdirectory($HOME . '/.vim/bundle/neosnippet' )
@@ -209,7 +217,6 @@ if isdirectory($HOME . '/.vim/bundle/neosnippet' )
   " Enable snipMate compatibility feature.
   " let g:neosnippet#enable_snipmate_compatibility = 1
 endif
-
 "rsenseの設定
 if isdirectory($HOME . '/.vim/bundle/neocomplcache-rsense' )
   let g:neocomplcache#sources#rsense#home_directory = $HOME . '/.vim/rsense'
@@ -227,4 +234,9 @@ if isdirectory($HOME . '/.vim/bundle/vim-airline' )
   let g:airline_section_y = '%3p%%'
   let g:airline_section_z = get(g:, 'airline_linecolumn_prefix', '').'%3l:%-2v'
   let g:airline#extensions#whitespace#enabled = 0
+endif
+"neocomplete-phpの設定
+"なお、辞書作成する場合は次のコマンドを呼ぶ :PhpMakeDict
+if isdirectory($HOME . '/.vim/bundle/neocomplete-php.vim' )
+  let g:neocomplete_php_locale = 'ja'
 endif
