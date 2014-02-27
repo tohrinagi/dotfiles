@@ -40,14 +40,14 @@ set hidden                      "複数ファイルの編集を可能にする
 set autoread                    "内容が更新されたら自動的に再読み込み
 set clipboard+=unnamed,autoselect          "クリップボードOSと連携する
 set backspace=indent,eol,start  "バックスペースでインデントや改行を削除できるようにする
-set wildchar=<C-Z>              "コマンドラインをTABで補完できるようにする
+set wildmenu
+"set wildchar=<C-Z>              "コマンドラインをTABで補完できるようにする
 set cursorline                  "カーソルラインを表示する
 set number                      "行番号の表示
 set mouse=a                     "マウスON
 set scrolloff=5                 "スクロールし始める行数
 set vb t_vb=                    "ビープ音使用しない
 set whichwrap=b,s,h,l,<,>,[,],~ " 特定のキーに行頭および行末の回りこみ移動を許可する設定
-
 
 "----------------------------------------------------------------------------
 "カラー設定
