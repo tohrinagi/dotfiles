@@ -10,8 +10,8 @@ export LANG=ja_JP.UTF-8
 autoload -Uz colors
 colors
 
-# emacs 風キーバインドにする
-bindkey -e
+# vi 風キーバインドにする
+bindkey -v
 
 # ヒストリの設定
 HISTFILE=~/.zsh_history
