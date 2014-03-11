@@ -2,9 +2,11 @@ set nocompatible              "VIMにする 与える影響が大きいので最
 filetype off
 
 "何で動いているか調べる
-let s:is_windows =  has('win16') || has('win32') || has('win64')
-let s:is_cygwin  =  has('win32unix')
-let s:is_cui     = !has('gui_running')
+let s:is_windows  =  has('win16') || has('win32') || has('win64') || has('win32unix')
+let s:is_mac      =  has('macunix') || has('mac')
+let s:is_unix     =  has('unix')
+let s:is_cygwin   =  has('win32unix')
+let s:is_cui      = !has('gui_running')
 
 "----------------------------------------------------------------------------
 " インストールするプラグインの設定
@@ -72,20 +74,24 @@ if s:is_cygwin
   if &term =~# '^xterm' && &t_Co < 256
     set t_Co=256  " Extend terminal color of xterm
   endif
-  if &term !=# 'cygwin'  " not in command prompt
-    " Change cursor shape depending on mode
-    let &t_ti .= "\e[1 q"
-    let &t_SI .= "\e[5 q"
-    let &t_EI .= "\e[1 q"
-    let &t_te .= "\e[0 q"
-  endif
-endif
-if s:is_cui
-  let g:solarized_termcolors=256
 endif
 
+"カラースキーム
 set background=dark
 colorscheme solarized
+
+
+"----------------------------------------------------------------------------
+"カラー設定
+"----------------------------------------------------------------------------
+if &term !=# 'cygwin'  " not in command prompt
+  " Change cursor shape depending on mode
+  let &t_ti .= "\e[1 q"
+  let &t_SI .= "\e[5 q"
+  let &t_EI .= "\e[1 q"
+  let &t_te .= "\e[0 q"
+endif
+
 
 "----------------------------------------------------------------------------
 "検索
