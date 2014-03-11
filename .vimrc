@@ -69,7 +69,6 @@ set whichwrap=b,s,<,>,[,],~ " 特定のキーに行頭および行末の回り�
 "----------------------------------------------------------------------------
 " ターミナルタイプによるカラー設定
 if s:is_cygwin
-  let g:solarized_termcolors=256
   if &term =~# '^xterm' && &t_Co < 256
     set t_Co=256  " Extend terminal color of xterm
   endif
@@ -80,6 +79,9 @@ if s:is_cygwin
     let &t_EI .= "\e[1 q"
     let &t_te .= "\e[0 q"
   endif
+endif
+if s:is_cui
+  let g:solarized_termcolors=256
 endif
 
 set background=dark
