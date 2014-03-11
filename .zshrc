@@ -10,9 +10,6 @@ export LANG=ja_JP.UTF-8
 autoload -Uz colors
 colors
 
-# vi 風キーバインドにする
-bindkey -v
-
 # ヒストリの設定
 HISTFILE=~/.zsh_history
 HISTSIZE=1000000
