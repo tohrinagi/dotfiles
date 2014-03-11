@@ -1,4 +1,5 @@
 set nocompatible              "VIMにする 与える影響が大きいので最初にset
+filetype off
 
 "何で動いているか調べる
 let s:is_windows =  has('win16') || has('win32') || has('win64')
@@ -14,19 +15,33 @@ endif
 call neobundle#rc(expand('~/dotfiles/.vim/bundle/'))
 
 " インストールしたいプラグイン
-NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/vimproc'
+"補完
 NeoBundle has('lua') ? 'Shougo/neocomplete' : 'Shougo/neocomplcache'
+"php補完拡張
 NeoBundle 'violetyk/neocomplete-php.vim'
+"Ryby補完拡張
 NeoBundle 'Shougo/neocomplcache-rsense', { 'autoload' : { 'filetype' : ['ruby'], }, }
+"リファレンス
+NeoBundle 'thinca/vim-ref'
+"スニペット
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
+"カラースキーマ
 NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'bling/vim-airline'
+NeoBundle 'w0ng/vim-hybrid'
+"ステータスライン拡張
+NeoBundle 'itchyny/lightline.vim'
+"grep後の置換
+NeoBundle 'thinca/vim-qfreplace'
+"コメントアウト
+NeoBundle 'scrooloose/nerdcommenter'
+"即実行 todo
+NeoBundle 'thinca/vim-quickrun'
 
-
-syntax on
+syntax enable
 filetype indent on
 filetype plugin on
 
@@ -41,19 +56,20 @@ set autoread                    "内容が更新されたら自動的に再読�
 set clipboard+=unnamed,autoselect          "クリップボードOSと連携する
 set backspace=indent,eol,start  "バックスペースでインデントや改行を削除できるようにする
 set wildmenu
-"set wildchar=<C-Z>              "コマンドラインをTABで補完できるようにする
 set cursorline                  "カーソルラインを表示する
 set number                      "行番号の表示
 set mouse=a                     "マウスON
+set ttymouse=xterm2
 set scrolloff=5                 "スクロールし始める行数
 set vb t_vb=                    "ビープ音使用しない
-set whichwrap=b,s,h,l,<,>,[,],~ " 特定のキーに行頭および行末の回りこみ移動を許可する設定
+set whichwrap=b,s,<,>,[,],~ " 特定のキーに行頭および行末の回りこみ移動を許可する設定
 
 "----------------------------------------------------------------------------
 "カラー設定
 "----------------------------------------------------------------------------
 " ターミナルタイプによるカラー設定
 if s:is_cygwin
+  let g:solarized_termcolors=256
   if &term =~# '^xterm' && &t_Co < 256
     set t_Co=256  " Extend terminal color of xterm
   endif
@@ -67,7 +83,6 @@ if s:is_cygwin
 endif
 
 set background=dark
-let g:solarized_termcolors=256
 colorscheme solarized
 
 "----------------------------------------------------------------------------
@@ -111,6 +126,10 @@ set laststatus=2                "ステータスラインを常に表示
 "set statusline+=%y              "ファイルタイプ表示
 
 "-------------------------------------------------------------------------------
+"タブライン
+"-------------------------------------------------------------------------------
+set showtabline=2                 "タブページを常に表示
+"-------------------------------------------------------------------------------
 " Mapping
 "-------------------------------------------------------------------------------
 " コマンド       ノーマルモード 挿入モード コマンドラインモード ビジュアルモード
@@ -122,16 +141,16 @@ set laststatus=2                "ステータスラインを常に表示
 " map!/noremap!         -            @              @                  -
 "-------------------------------------------------------------------------------
 "タブ移動を早くする
-noremap <unique> <script> <M-1> :tabn1<CR>:<BS>
-noremap <unique> <script> <M-2> :tabn2<CR>:<BS>
-noremap <unique> <script> <M-3> :tabn3<CR>:<BS>
-noremap <unique> <script> <M-4> :tabn4<CR>:<BS>
-noremap <unique> <script> <M-5> :tabn5<CR>:<BS>
-noremap <unique> <script> <M-6> :tabn6<CR>:<BS>
-noremap <unique> <script> <M-7> :tabn7<CR>:<BS>
-noremap <unique> <script> <M-8> :tabn8<CR>:<BS>
-noremap <unique> <script> <M-9> :tabn9<CR>:<BS>
-noremap <unique> <script> <M-0> :tabn10<CR>:<BS>
+nmap <A-1> 1gt
+nmap <A-2> 2gt
+nmap <A-3> 3gt
+nmap <A-4> 4gt
+nmap <A-5> 5gt
+nmap <A-6> 6gt
+nmap <A-7> 7gt
+nmap <A-8> 8gt
+nmap <A-9> 9gt
+nmap <A-0> 10gt
 
 "単語の上書きペースト
 nnoremap <silent> rp ciw<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
@@ -144,6 +163,10 @@ map n nzz
 map N Nzz
 map * *zz
 map # #zz
+
+"行の折り返しをしているとき、見た目の次の行へ移動する
+nnoremap j gj
+nnoremap k gk
 
 "-------------------------------------------------------------------------------
 " プラグイン設定
@@ -221,22 +244,80 @@ endif
 if isdirectory($HOME . '/.vim/bundle/neocomplcache-rsense' )
   let g:neocomplcache#sources#rsense#home_directory = $HOME . '/.vim/rsense'
 endif
-"vim-airlineの設定
-if isdirectory($HOME . '/.vim/bundle/vim-airline' )
-  let g:airline_enable_branch = 0
-  let g:airline_section_b = "%t %M"
-  let g:airline_section_c = ''
-  let s:sep = " %{get(g:, 'airline_right_alt_sep', '')} "
-  let g:airline_section_x =
-        \ "%{strlen(&fileformat)?&fileformat:''}".s:sep.
-        \ "%{strlen(&fenc)?&fenc:&enc}".s:sep.
-        \ "%{strlen(&filetype)?&filetype:'no ft'}"
-  let g:airline_section_y = '%3p%%'
-  let g:airline_section_z = get(g:, 'airline_linecolumn_prefix', '').'%3l:%-2v'
-  let g:airline#extensions#whitespace#enabled = 0
-endif
 "neocomplete-phpの設定
 "なお、辞書作成する場合は次のコマンドを呼ぶ :PhpMakeDict
 if isdirectory($HOME . '/.vim/bundle/neocomplete-php.vim' )
   let g:neocomplete_php_locale = 'ja'
+endif
+"nerdcommenterの設定
+if isdirectory($HOME . '/.vim/bundle/nerdcommenter' )
+  " デフォルトマッピングを無効
+  let g:NERDCreateDefaultMappings = 0
+  let g:NERDSpaceDelims = 2
+  " コメントアウトのマッピング
+  :map ,, <Plug>NERDCommenterToggle
+  :map ,m <Plug>NERDCommenterAppend
+  :map ,. <Plug>NERDCommenterSexy
+endif
+if isdirectory($HOME . '/.vim/bundle/lightline.vim' )
+  let g:lightline = {
+        \ 'colorscheme': 'solarized',
+        \ 'mode_map': {'c': 'NORMAL'},
+        \ 'active': {
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
+        \ },
+        \ 'component_function': {
+        \   'modified': 'MyModified',
+        \   'readonly': 'MyReadonly',
+        \   'fugitive': 'MyFugitive',
+        \   'filename': 'MyFilename',
+        \   'fileformat': 'MyFileformat',
+        \   'filetype': 'MyFiletype',
+        \   'fileencoding': 'MyFileencoding',
+        \   'mode': 'MyMode'
+        \ }
+        \ }
+
+  function! MyModified()
+    return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+  endfunction
+
+  function! MyReadonly()
+    return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'x' : ''
+  endfunction
+
+  function! MyFilename()
+    return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+          \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+          \  &ft == 'unite' ? unite#get_status_string() :
+          \  &ft == 'vimshell' ? vimshell#get_status_string() :
+          \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+          \ ('' != MyModified() ? ' ' . MyModified() : '')
+  endfunction
+
+  function! MyFugitive()
+    try
+      if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
+        return fugitive#head()
+      endif
+    catch
+    endtry
+    return ''
+  endfunction
+
+  function! MyFileformat()
+    return winwidth(0) > 70 ? &fileformat : ''
+  endfunction
+
+  function! MyFiletype()
+    return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+  endfunction
+
+  function! MyFileencoding()
+    return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+  endfunction
+
+  function! MyMode()
+    return winwidth(0) > 60 ? lightline#mode() : ''
+  endfunction
 endif
