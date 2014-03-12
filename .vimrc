@@ -16,9 +16,10 @@ if has('vim_starting')
 endif
 call neobundle#rc(expand('~/dotfiles/.vim/bundle/'))
 
-" インストールしたいプラグイン
+"Unite
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neomru.vim'
+"vimproc
 NeoBundle 'Shougo/vimproc'
 "補完
 NeoBundle has('lua') ? 'Shougo/neocomplete' : 'Shougo/neocomplcache'
@@ -33,7 +34,6 @@ NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
 "カラースキーマ
 NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'w0ng/vim-hybrid'
 "ステータスライン拡張
 NeoBundle 'itchyny/lightline.vim'
 "grep後の置換
@@ -71,25 +71,29 @@ set whichwrap=b,s,<,>,[,],~ " 特定のキーに行頭および行末の回り�
 "----------------------------------------------------------------------------
 " ターミナルタイプによるカラー設定
 if s:is_cygwin
+  "cygwin-minttyではこれがないとsolarized反映しない…
+  let g:solarized_termcolors=256
   if &term =~# '^xterm' && &t_Co < 256
     set t_Co=256  " Extend terminal color of xterm
   endif
 endif
 
 "カラースキーム
+syntax enable
 set background=dark
 colorscheme solarized
 
-
 "----------------------------------------------------------------------------
-"カラー設定
+"
 "----------------------------------------------------------------------------
-if &term !=# 'cygwin'  " not in command prompt
-  " Change cursor shape depending on mode
-  let &t_ti .= "\e[1 q"
-  let &t_SI .= "\e[5 q"
-  let &t_EI .= "\e[1 q"
-  let &t_te .= "\e[0 q"
+if s:is_cui
+  if &term !=# 'cygwin'  " not in command prompt
+    " Change cursor shape depending on mode
+    let &t_ti .= "\e[1 q"
+    let &t_SI .= "\e[5 q"
+    let &t_EI .= "\e[1 q"
+    let &t_te .= "\e[0 q"
+  endif
 endif
 
 
