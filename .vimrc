@@ -71,8 +71,9 @@ set mouse=a                     "マウスON
 set ttymouse=xterm2
 set scrolloff=5                 "スクロールし始める行数
 set vb t_vb=                    "ビープ音使用しない
-set whichwrap=b,s,<,>,[,],~     "特定のキーに行頭および行末の回りこみ移動を許可する設定
+set whichwrap=b,s,h,l,<,>,[,],~     "特定のキーに行頭および行末の回りこみ移動を許可する設定
 set wrap                        "行のおりかえし
+set showcmd                     " タイプ途中のコマンドを画面最下行に表示
 
 "----------------------------------------------------------------------------
 "カラー設定
@@ -201,9 +202,9 @@ if isdirectory($HOME . '/.vim/bundle/unite.vim' )
   let g:unite_source_file_mru_limit = 200
   nnoremap <silent> ,uy :<C-u>Unite history/yank<CR>
   nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
-  nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+  nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file -default-action=tabopen<CR>
   nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
-  nnoremap <silent> ,uu :<C-u>Unite file_mru buffer<CR>
+  nnoremap <silent> ,uu :<C-u>Unite file_mru buffer -default-action=tabopen<CR>
 endif
 if neobundle#is_installed('neocomplete')
   " neocomplete用設定
