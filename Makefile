@@ -6,7 +6,7 @@ zsh: $(foreach f, $(filter .zsh%, $(DOT_FILES)), link-dot-file-$(f))
 
 vim: $(foreach f, $(filter .vim%, $(DOT_FILES)), link-dot-file-$(f))
   
-vim: $(foreach f, $(filter .gvim%, $(DOT_FILES)), link-dot-file-$(f))
+gvim: $(foreach f, $(filter .gvim%, $(DOT_FILES)), link-dot-file-$(f))
 
 .PHONY: clean
 clean: $(foreach f, $(DOT_FILES), unlink-dot-file-$(f))
