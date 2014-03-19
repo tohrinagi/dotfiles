@@ -16,7 +16,7 @@ if has('vim_starting')
 endif
 call neobundle#rc(expand('~/dotfiles/.vim/bundle/'))
 
-"unite
+"Unite
 NeoBundle 'Shougo/unite.vim'
 "unite extention
 NeoBundle 'Shougo/neomru.vim'
@@ -79,25 +79,29 @@ set wrap                        "行のおりかえし
 "----------------------------------------------------------------------------
 " ターミナルタイプによるカラー設定
 if s:is_cygwin
+  "cygwin-minttyではこれがないとsolarized反映しない…
+  let g:solarized_termcolors=256
   if &term =~# '^xterm' && &t_Co < 256
     set t_Co=256  " Extend terminal color of xterm
   endif
 endif
 
 "カラースキーム
+syntax enable
 set background=dark
 colorscheme solarized
-
 
 "----------------------------------------------------------------------------
 "ターミナル設定
 "----------------------------------------------------------------------------
-if &term !=# 'cygwin'  " not in command prompt
-  " Change cursor shape depending on mode
-  let &t_ti .= "\e[1 q"
-  let &t_SI .= "\e[5 q"
-  let &t_EI .= "\e[1 q"
-  let &t_te .= "\e[0 q"
+if s:is_cui
+  if &term !=# 'cygwin'  " not in command prompt
+    " Change cursor shape depending on mode
+    let &t_ti .= "\e[1 q"
+    let &t_SI .= "\e[5 q"
+    let &t_EI .= "\e[1 q"
+    let &t_te .= "\e[0 q"
+  endif
 endif
 
 
