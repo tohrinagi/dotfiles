@@ -16,24 +16,27 @@ if has('vim_starting')
 endif
 call neobundle#rc(expand('~/dotfiles/.vim/bundle/'))
 
-" インストールしたいプラグイン
+"unite
 NeoBundle 'Shougo/unite.vim'
+"unite extention
 NeoBundle 'Shougo/neomru.vim'
+"async process
 NeoBundle 'Shougo/vimproc'
 "補完
 NeoBundle has('lua') ? 'Shougo/neocomplete' : 'Shougo/neocomplcache'
 "php補完拡張
-NeoBundle 'violetyk/neocomplete-php.vim'
+NeoBundle 'violetyk/neocomplete-php.vim', { 'autoload' : { 'filetype' : ['php'], }, }
 "Ryby補完拡張
 NeoBundle 'Shougo/neocomplcache-rsense', { 'autoload' : { 'filetype' : ['ruby'], }, }
 "リファレンス
 NeoBundle 'thinca/vim-ref'
+NeoBundle 'mfumi/ref-dicts-en'
+NeoBundle 'tyru/vim-altercmd'
 "スニペット
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
 "カラースキーマ
 NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'w0ng/vim-hybrid'
 "ステータスライン拡張
 NeoBundle 'itchyny/lightline.vim'
 "grep後の置換
@@ -42,6 +45,10 @@ NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'scrooloose/nerdcommenter'
 "即実行 todo
 NeoBundle 'thinca/vim-quickrun'
+"evernote連携
+if has('python')
+  NeoBundle 'kakkyz81/evervim'
+endif
 
 syntax enable
 filetype indent on
@@ -64,7 +71,8 @@ set mouse=a                     "マウスON
 set ttymouse=xterm2
 set scrolloff=5                 "スクロールし始める行数
 set vb t_vb=                    "ビープ音使用しない
-set whichwrap=b,s,<,>,[,],~ " 特定のキーに行頭および行末の回りこみ移動を許可する設定
+set whichwrap=b,s,<,>,[,],~     "特定のキーに行頭および行末の回りこみ移動を許可する設定
+set wrap                        "行のおりかえし
 
 "----------------------------------------------------------------------------
 "カラー設定
@@ -82,7 +90,7 @@ colorscheme solarized
 
 
 "----------------------------------------------------------------------------
-"カラー設定
+"ターミナル設定
 "----------------------------------------------------------------------------
 if &term !=# 'cygwin'  " not in command prompt
   " Change cursor shape depending on mode
@@ -137,6 +145,7 @@ set laststatus=2                "ステータスラインを常に表示
 "タブライン
 "-------------------------------------------------------------------------------
 set showtabline=2                 "タブページを常に表示
+
 "-------------------------------------------------------------------------------
 " Mapping
 "-------------------------------------------------------------------------------
@@ -149,16 +158,16 @@ set showtabline=2                 "タブページを常に表示
 " map!/noremap!         -            @              @                  -
 "-------------------------------------------------------------------------------
 "タブ移動を早くする
-nmap <A-1> 1gt
-nmap <A-2> 2gt
-nmap <A-3> 3gt
-nmap <A-4> 4gt
-nmap <A-5> 5gt
-nmap <A-6> 6gt
-nmap <A-7> 7gt
-nmap <A-8> 8gt
-nmap <A-9> 9gt
-nmap <A-0> 10gt
+map ,1 1gt
+map ,2 2gt
+map ,3 3gt
+map ,4 4gt
+map ,5 5gt
+map ,6 6gt
+map ,7 7gt
+map ,8 8gt
+map ,9 9gt
+map ,0 10gt
 
 "単語の上書きペースト
 nnoremap <silent> rp ciw<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
@@ -175,6 +184,9 @@ map # #zz
 "行の折り返しをしているとき、見た目の次の行へ移動する
 nnoremap j gj
 nnoremap k gk
+
+" ESCを二回押すことでハイライトを消す
+nmap <silent> <Esc><Esc> :nohlsearch<CR>
 
 "-------------------------------------------------------------------------------
 " プラグイン設定
@@ -264,8 +276,21 @@ if isdirectory($HOME . '/.vim/bundle/nerdcommenter' )
   let g:NERDSpaceDelims = 2
   " コメントアウトのマッピング
   :map ,, <Plug>NERDCommenterToggle
-  :map ,m <Plug>NERDCommenterAppend
-  :map ,. <Plug>NERDCommenterSexy
+  " :map ,m <Plug>NERDCommenterAppend
+  " :map ,. <Plug>NERDCommenterSexy
+endif
+if isdirectory($HOME . '/.vim/bundle/evervim' )
+  nnoremap <silent> ,el :<C-u>EvervimNotebookList<CR>
+  " nnoremap <silent> ,eT :<C-u>EvervimListTags<CR>
+  nnoremap <silent> ,en :<C-u>EvervimCreateNote<CR>
+  nnoremap <silent> ,eb :<C-u>EvervimOpenBrowser<CR>
+  nnoremap <silent> ,ec :<C-u>EvervimOpenClient<CR>
+  nnoremap ,es :<C-u>EvervimSearchByQuery<SPACE>
+  nnoremap <silent> ,et :<C-u>EvervimSearchByQuery<SPACE>tag:todo -tag:done -tag:someday<CR>
+  nnoremap <silent> ,eta :<C-u>EvervimSearchByQuery<SPACE>tag:todo -tag:done<CR>
+  "vがデフォ。vspになる
+  "let evervim_splitoption=''
+  "let g:evervim_devtoken= は .vimrc.localにある
 endif
 if isdirectory($HOME . '/.vim/bundle/lightline.vim' )
   let g:lightline = {
@@ -328,4 +353,42 @@ if isdirectory($HOME . '/.vim/bundle/lightline.vim' )
   function! MyMode()
     return winwidth(0) > 60 ? lightline#mode() : ''
   endfunction
+endif
+if isdirectory($HOME . '/.vim/bundle/ref-dicts-en' )
+  " vim-ref のバッファを q で閉じられるようにする
+  autocmd FileType ref-* nnoremap <buffer> <silent> q :<C-u>close<CR>
+
+  " 辞書定義
+  let g:ref_source_webdict_sites = {
+        \   'je': {
+        \     'url': 'http://dictionary.infoseek.ne.jp/jeword/%s',
+        \   },
+        \   'ej': {
+        \     'url': 'http://dictionary.infoseek.ne.jp/ejword/%s',
+        \   },
+        \ }
+
+  " デフォルトサイト
+  let g:ref_source_webdict_sites.default = 'ej'
+
+  " 出力に対するフィルタ
+  " 最初の数行を削除
+  function! g:ref_source_webdict_sites.je.filter(output)
+    return join(split(a:output, "\n")[15 :], "\n")
+  endfunction
+
+  function! g:ref_source_webdict_sites.ej.filter(output)
+    return join(split(a:output, "\n")[15 :], "\n")
+  endfunction
+endif
+if isdirectory($HOME . '/.vim/bundle/ref-dicts-en' )
+  call altercmd#load()
+  "vim-ref webdictを短縮する
+  CAlterCommand ej Ref webdict ej
+  CAlterCommand je Ref webdict je
+endif
+" ~/.vimrc.localが存在する場合のみ設定を読み込む
+let s:local_vimrc = expand('~/.vimrc.local')
+if filereadable(s:local_vimrc)
+    execute 'source ' . s:local_vimrc
 endif
