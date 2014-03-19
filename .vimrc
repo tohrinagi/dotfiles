@@ -49,10 +49,21 @@ NeoBundle 'thinca/vim-quickrun'
 if has('python')
   NeoBundle 'kakkyz81/evervim'
 endif
+"cuiブラウザ
+NeoBundle 'yuratomo/w3m.vim'
 
 syntax enable
 filetype indent on
 filetype plugin on
+
+"----------------------------------------------------------------------------
+" 外部設定ファイル
+"----------------------------------------------------------------------------
+" ~/.vimrc.localが存在する場合のみ設定を読み込む
+let s:local_vimrc = expand('~/.vimrc.local')
+if filereadable(s:local_vimrc)
+    execute 'source ' . s:local_vimrc
+endif
 
 "----------------------------------------------------------------------------
 " 基本設定
@@ -132,19 +143,7 @@ set listchars=tab:^\ ,trail:~
 "-------------------------------------------------------------------------------
 "ステータスライン
 "-------------------------------------------------------------------------------
-"vim-airlineを使うようになったのでコメントアウト
-"set showcmd                     "ステータスラインにコマンドを表示
 set laststatus=2                "ステータスラインを常に表示
-"set statusline=[%n]             "ファイルナンバー表示
-"set statusline+=%{matchstr(hostname(),'\\w\\+')}@   "ホスト名表示
-"set statusline+=%<%F            "ファイル名表示
-"set statusline+=%m              "変更のチェック表示
-"set statusline+=%r              "読み込み専用かどうか表示
-"set statusline+=%h              "ヘルプページなら[HELP]と表示
-"set statusline+=%w              "プレビューウインドウなら[Prevew]と表示
-"set statusline+=[%{&fileformat}]  "ファイルフォーマット表示
-"set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]  "文字コード表示
-"set statusline+=%y              "ファイルタイプ表示
 
 "-------------------------------------------------------------------------------
 "タブライン
@@ -175,7 +174,7 @@ map ,9 9gt
 map ,0 10gt
 
 "単語の上書きペースト
-nnoremap <silent> rp ciw<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
+"nnoremap <silent> rp ciw<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
 
 "コピーした文字で繰り返し上書きペーストする
 vnoremap <silent> 0p "0p<CR>
@@ -401,8 +400,9 @@ if isdirectory($HOME . '/.vim/bundle/ref-dicts-en' )
   CAlterCommand ej Ref webdict ej
   CAlterCommand je Ref webdict je
 endif
-" ~/.vimrc.localが存在する場合のみ設定を読み込む
-let s:local_vimrc = expand('~/.vimrc.local')
-if filereadable(s:local_vimrc)
-    execute 'source ' . s:local_vimrc
+if isdirectory($HOME . '/.vim/bundle/w3m.vim' )
+  CAlterCommand wb W3mTab google
+  CAlterCommand wbeng W3mTab alc
+  CAlterCommand wbwiki W3mTab wikipedia
+  CAlterCommand wbphp W3mTab php
 endif
