@@ -50,7 +50,9 @@ if has('python')
   NeoBundle 'kakkyz81/evervim'
 endif
 "cuiブラウザ
-NeoBundle 'yuratomo/w3m.vim'
+if s:is_cui
+  NeoBundle 'yuratomo/w3m.vim'
+endif
 
 syntax enable
 filetype indent on
@@ -296,11 +298,14 @@ if isdirectory($HOME . '/.vim/bundle/evervim' )
   nnoremap <silent> ,el :<C-u>EvervimNotebookList<CR>
   " nnoremap <silent> ,eT :<C-u>EvervimListTags<CR>
   nnoremap <silent> ,en :<C-u>EvervimCreateNote<CR>
-  nnoremap <silent> ,eb :<C-u>EvervimOpenBrowser<CR>
-  nnoremap <silent> ,ec :<C-u>EvervimOpenClient<CR>
+  " nnoremap <silent> ,eb :<C-u>EvervimOpenBrowser<CR>
+  " nnoremap <silent> ,ec :<C-u>EvervimOpenClient<CR>
   nnoremap ,es :<C-u>EvervimSearchByQuery<SPACE>
-  nnoremap <silent> ,et :<C-u>EvervimSearchByQuery<SPACE>tag:todo -tag:done -tag:someday<CR>
-  nnoremap <silent> ,eta :<C-u>EvervimSearchByQuery<SPACE>tag:todo -tag:done<CR>
+  "タスク用ノートを開く
+  nnoremap <silent> ,et :<C-u>EvervimSearchByQuery<SPACE>notebook:"Tasks"<CR>
+  " nnoremap <silent> ,et :<C-u>EvervimSearchByQuery<SPACE>tag:todo -tag:done -tag:someday<CR>
+  " nnoremap <silent> ,eta :<C-u>EvervimSearchByQuery<SPACE>tag:todo -tag:done<CR>
+  " nnoremap <silent> ,em :<C-u>EvervimSearchByQuery<SPACE>tag:todo -tag:done<CR>
   "vがデフォ。vspになる
   "let evervim_splitoption=''
   "let g:evervim_devtoken= は .vimrc.localにある
@@ -401,6 +406,7 @@ if isdirectory($HOME . '/.vim/bundle/ref-dicts-en' )
   CAlterCommand je Ref webdict je
 endif
 if isdirectory($HOME . '/.vim/bundle/w3m.vim' )
+  CAlterCommand w3m W3mTab
   CAlterCommand wb W3mTab google
   CAlterCommand wbeng W3mTab alc
   CAlterCommand wbwiki W3mTab wikipedia
