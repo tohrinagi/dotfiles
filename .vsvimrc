@@ -1,0 +1,86 @@
+"----------------------------------------------------------------------------
+" 基本設定
+"----------------------------------------------------------------------------
+set encoding=utf8               "エンコーディング設定
+set nobackup                    "バックアップファイルのディレクトリを指定する
+set noswapfile                  "スワップファイル用のディレクトリを指定する
+set hidden                      "複数ファイルの編集を可能にする
+set autoread                    "内容が更新されたら自動的に再読み込み
+set clipboard+=unnamed,autoselect          "クリップボードOSと連携する
+set backspace=indent,eol,start  "バックスペースでインデントや改行を削除できるようにする
+set wildmenu
+set cursorline                  "カーソルラインを表示する
+set number                      "行番号の表示
+set mouse=a                     "マウスON
+set ttymouse=xterm2
+set scrolloff=5                 "スクロールし始める行数
+set vb t_vb=                    "ビープ音使用しない
+set whichwrap=b,s,h,l,<,>,[,],~     "特定のキーに行頭および行末の回りこみ移動を許可する設定
+set wrap                        "行のおりかえし
+set showcmd                     " タイプ途中のコマンドを画面最下行に表示
+
+"----------------------------------------------------------------------------
+"検索
+"----------------------------------------------------------------------------
+set noignorecase                "検索時　大文字小文字を区別する
+set smartcase                   "大文字で検索されたら対象を大文字限定にする
+set incsearch                   "インクリメンタルサーチを有効にする
+set hlsearch                    "強調表示
+
+"----------------------------------------------------------------------------
+"フォーマット設定
+"----------------------------------------------------------------------------
+set autoindent                  "自動的にインデントする
+set smartindent
+set showmatch                   "閉括弧が入力された時、対応する括弧を強調する
+set smarttab                    "行頭の余白内でTabを打ち込むと'shiftwidth'の数だけインデントする
+set expandtab                   "タブ設定
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set cino=:0                     "switch caseを同じ列にする
+set list                        "Tab、行末の半角スペースを明示的に表示する
+set listchars=tab:^\ ,trail:~
+
+"----------------------------------------------------------------------------
+" visual studio用のキー設定
+"----------------------------------------------------------------------------
+"戻るを再現
+nnoremap <c-o> :vsc View.NavigateBackward<cr>
+
+"vimrcのnerdcommenterを再現
+xnoremap ,, :vsc Edit.CommentSelection<cr>
+
+"-------------------------------------------------------------------------------
+" Mapping
+"-------------------------------------------------------------------------------
+"タブ移動を早くする
+map ,1 1gt
+map ,2 2gt
+map ,3 3gt
+map ,4 4gt
+map ,5 5gt
+map ,6 6gt
+map ,7 7gt
+map ,8 8gt
+map ,9 9gt
+map ,0 10gt
+
+"単語の上書きペースト
+"nnoremap <silent> rp ciw<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
+
+"コピーした文字で繰り返し上書きペーストする
+vnoremap <silent> 0p "0p<CR>
+
+" 検索語に中央に移動
+map n nzz
+map N Nzz
+map * *zz
+map # #zz
+
+"行の折り返しをしているとき、見た目の次の行へ移動する
+nnoremap j gj
+nnoremap k gk
+
+" ESCを二回押すことでハイライトを消す
+nmap <silent> <Esc><Esc> :nohlsearch<CR>

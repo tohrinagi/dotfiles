@@ -1,16 +1,18 @@
-DOT_FILES = .zshrc .vimrc .vim .gvimrc
+DOT_FILES = .zshrc .vimrc .vim .gvimrc .vsvimrc
 
-all: zsh vim gvim
+all: zsh vim gvim vsvim
 
 zsh: $(foreach f, $(filter .zsh%, $(DOT_FILES)), link-dot-file-$(f))
 
 vim: $(foreach f, $(filter .vim%, $(DOT_FILES)), link-dot-file-$(f))
-  
+
 gvim: $(foreach f, $(filter .gvim%, $(DOT_FILES)), link-dot-file-$(f))
+
+vsvim: $(foreach f, $(filter .vsvimrc, $(DOT_FILES)), link-dot-file-$(f))
 
 .PHONY: clean
 clean: $(foreach f, $(DOT_FILES), unlink-dot-file-$(f))
-  
+
 
 link-dot-file-%: %
 	@echo "Create Symlink $< => $(HOME)/$<"
