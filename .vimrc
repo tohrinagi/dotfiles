@@ -22,6 +22,8 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neomru.vim'
 "async process
 NeoBundle 'Shougo/vimproc'
+"ファイラ
+NeoBundle 'Shougo/Vimfiler.vim'
 "補完
 NeoBundle has('lua') ? 'Shougo/neocomplete' : 'Shougo/neocomplcache'
 "php補完拡張
@@ -201,6 +203,7 @@ if isdirectory($HOME . '/.vim/bundle/unite.vim' )
   let g:unite_enable_start_insert=1
   let g:unite_source_history_yank_enable =1
   let g:unite_source_file_mru_limit = 200
+  let g:unite_source_find_command="find.exe"
   nnoremap <silent> ,uy :<C-u>Unite history/yank<CR>
   nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
   nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file -default-action=tabopen<CR>
