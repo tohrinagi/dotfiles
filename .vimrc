@@ -47,9 +47,15 @@ NeoBundle 'thinca/vim-qfreplace'
 NeoBundle 'scrooloose/nerdcommenter'
 "即実行 todo
 NeoBundle 'thinca/vim-quickrun'
-"evernote連携
+"filetype json
+NeoBundle 'elzr/vim-json'
+"filetype yaml
+NeoBundle 'ingydotnet/yaml-vim'
 if has('python')
+  "evernote連携
   NeoBundle 'kakkyz81/evervim'
+  "json
+  NeoBundle '5t111111/neat-json.vim'
 endif
 "cuiブラウザ
 if s:is_cui
