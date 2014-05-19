@@ -54,7 +54,7 @@ NeoBundle 'ingydotnet/yaml-vim'
 if has('python')
   "evernote連携
   NeoBundle 'kakkyz81/evervim'
-  "json
+  "json :NeatJson
   NeoBundle '5t111111/neat-json.vim'
 endif
 "cuiブラウザ

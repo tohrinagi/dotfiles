@@ -5,6 +5,8 @@
 # 環境変数
 export LANG=ja_JP.UTF-8
 
+PATH=/usr/local/bin:$PATH
+export PATH
 
 # 色を使用出来るようにする
 autoload -Uz colors
@@ -173,6 +175,9 @@ case ${OSTYPE} in
         ;;
     linux*)
         #Linux用の設定
+        ;;
+    cygwin*)
+        #CYGWIN用の設定
         ;;
 esac
 
