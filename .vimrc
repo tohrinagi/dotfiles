@@ -54,7 +54,7 @@ NeoBundle 'ingydotnet/yaml-vim'
 if has('python')
   "evernote連携
   NeoBundle 'kakkyz81/evervim'
-  "json
+  "json :NeatJson
   NeoBundle '5t111111/neat-json.vim'
 endif
 "cuiブラウザ
@@ -172,16 +172,18 @@ set showtabline=2                 "タブページを常に表示
 " map!/noremap!         -            @              @                  -
 "-------------------------------------------------------------------------------
 "タブ移動を早くする
-map ,1 1gt
-map ,2 2gt
-map ,3 3gt
-map ,4 4gt
-map ,5 5gt
-map ,6 6gt
-map ,7 7gt
-map ,8 8gt
-map ,9 9gt
-map ,0 10gt
+map t1 1gt
+map t2 2gt
+map t3 3gt
+map t4 4gt
+map t5 5gt
+map t6 6gt
+map t7 7gt
+map t8 8gt
+map t9 9gt
+map t0 10gt
+
+map to :tabo
 
 "単語の上書きペースト
 "nnoremap <silent> rp ciw<C-r>0<ESC>:let@/=@1<CR>:noh<CR>

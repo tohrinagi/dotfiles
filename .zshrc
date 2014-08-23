@@ -5,7 +5,7 @@
 # 環境変数
 export LANG=ja_JP.UTF-8
 
-PATH=$HOME/.cabal/bin:$PATH
+PATH=/usr/local/bin:$HOME/.cabal/bin:$PATH
 
 # 色を使用出来るようにする
 autoload -Uz colors
@@ -174,6 +174,9 @@ case ${OSTYPE} in
         ;;
     linux*)
         #Linux用の設定
+        ;;
+    cygwin*)
+        #CYGWIN用の設定
         ;;
 esac
 
