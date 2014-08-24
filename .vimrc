@@ -61,6 +61,10 @@ endif
 if s:is_cui
   NeoBundle 'yuratomo/w3m.vim'
 endif
+"markdown対応 ;PrevimOpenで見る
+NeoBundle 'plasticboy/vim-markdown'
+NeoBundle 'kannokanno/previm'
+NeoBundle 'tyru/open-browser.vim'
 
 syntax enable
 filetype indent on
@@ -204,6 +208,8 @@ nnoremap k gk
 " ESCを二回押すことでハイライトを消す
 nmap <silent> <Esc><Esc> :nohlsearch<CR>
 
+".md拡張子をmarkdownファイルとする
+au BufRead,BufNewFile *.md set filetype=markdown
 "-------------------------------------------------------------------------------
 " プラグイン設定
 "-------------------------------------------------------------------------------
