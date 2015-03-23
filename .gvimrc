@@ -16,4 +16,4 @@ set langmenu=ja_jp.utf-8
 source $VIMRUNTIME/menu.vim
 
 "半透明化
-autocmd GUIEnter * set transparency=230
+"autocmd GUIEnter * set transparency=230
