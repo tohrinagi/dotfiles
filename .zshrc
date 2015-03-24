@@ -180,4 +180,7 @@ case ${OSTYPE} in
         ;;
 esac
 
+# ローカル環境があれば読み込み
+[ -f $HOME/.zshrc_local ] && . $HOME/.zshrc_local
+
 # vim:set ft=zsh:
