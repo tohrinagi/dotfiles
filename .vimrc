@@ -210,6 +210,12 @@ nmap <silent> <Esc><Esc> :nohlsearch<CR>
 
 ".md拡張子をmarkdownファイルとする
 au BufRead,BufNewFile *.md set filetype=markdown
+
+" prefix Key
+" Pluginのキーバインドルールとしては スペース始まりにしたい
+nnoremap [unite] <Nop>
+nmap <Space>u [unite]
+
 "-------------------------------------------------------------------------------
 " プラグイン設定
 "-------------------------------------------------------------------------------
@@ -218,11 +224,11 @@ if isdirectory($HOME . '/.vim/bundle/unite.vim' )
   let g:unite_source_history_yank_enable =1
   let g:unite_source_file_mru_limit = 200
   let g:unite_source_find_command="find.exe"
-  nnoremap <silent> ,uy :<C-u>Unite history/yank<CR>
-  nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
-  nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file -default-action=tabopen<CR>
-  nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
-  nnoremap <silent> ,uu :<C-u>Unite file_mru buffer -default-action=tabopen<CR>
+  nnoremap <silent> [unite]y :<C-u>Unite history/yank<CR>
+  nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
+  nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file -default-action=tabopen<CR>
+  nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
+  nnoremap <silent> [unite]u :<C-u>Unite file_mru buffer -default-action=tabopen<CR>
 endif
 if neobundle#is_installed('neocomplete')
   " neocomplete用設定
