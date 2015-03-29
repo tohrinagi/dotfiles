@@ -25,13 +25,17 @@ NeoBundle 'Shougo/vimproc'
 "ファイラ
 NeoBundle 'Shougo/Vimfiler.vim'
 "補完
-NeoBundle has('lua') ? 'Shougo/neocomplete' : 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neocomplete'
 "php補完拡張
 NeoBundle 'violetyk/neocomplete-php.vim', { 'autoload' : { 'filetype' : ['php'], }, }
-"Ryby補完拡張
-NeoBundle 'Shougo/neocomplcache-rsense', { 'autoload' : { 'filetype' : ['ruby'], }, }
+"ruby拡張
+NeoBundle 'marcus/rsense'
+NeoBundle 'supermomonga/neocomplete-rsense.vim'
+" 静的解析
+NeoBundle 'scrooloose/syntastic'
 "リファレンス
 NeoBundle 'thinca/vim-ref'
+NeoBundle 'yuku-t/vim-ref-ri'
 NeoBundle 'mfumi/ref-dicts-en'
 NeoBundle 'tyru/vim-altercmd'
 "スニペット
@@ -51,9 +55,13 @@ NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'elzr/vim-json'
 "filetype yaml
 NeoBundle 'ingydotnet/yaml-vim'
+" メソッド定義元へのジャンプ
+NeoBundle 'szw/vim-tags'
+" 自動で閉じる
+NeoBundle 'tpope/vim-endwise'
+" 囲うもの S' や S" で単語を囲う
+NeoBundle 'tpope/vim-surround'
 if has('python')
-  "evernote連携
-  NeoBundle 'kakkyz81/evervim'
   "json :NeatJson
   NeoBundle '5t111111/neat-json.vim'
 endif
@@ -232,47 +240,29 @@ if isdirectory($HOME . '/.vim/bundle/unite.vim' )
 endif
 if neobundle#is_installed('neocomplete')
   " neocomplete用設定
+  let g:acp_enableAtStartup = 0
   let g:neocomplete#enable_at_startup = 1
-  let g:neocomplete#enable_ignore_case = 1
   let g:neocomplete#enable_smart_case = 1
-elseif neobundle#is_installed('neocomplcache')
-  let g:acp_enableAtStartup = 0                 "ACPと競合するので強制OFF
-  let g:neocomplcache_enable_at_startup = 1     "起動時に有効化
-  let g:neocomplcache_enable_smart_case = 1     "大文字が入力されるまで大文字小文字の区別を無視する
-  let g:neocomplcache_enable_camel_case_completion = 0 "大文字区切りとしたワイルドカードのように振る舞う。FA->F*A*。但し重くなる。
-  let g:neocomplcache_enable_underbar_completion = 1 " _ 区切りの補完を有効にする。
-  let g:neocomplcache_min_syntax_length = 3     "シンタックスをキャッシュするときの最小文字長
-  let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*' "自動的にロックするバッファ名のパターンを指定する。相性が悪いプラグインがある時に設定する
-  "ファイルタイプごとの辞書設定
-  let g:neocomplcache_dictionary_filetype_lists = {
-      \ 'default' : ''
-      \ }
-
-  "キーマッピング
-  imap <C-k>     <Plug>(neocomplcache_snippets_expand)
-  smap <C-k>     <Plug>(neocomplcache_snippets_expand)
-  inoremap <expr><C-g>     neocomplcache#undo_completion()
-  inoremap <expr><C-l>     neocomplcache#complete_common_string()
-
-  " SuperTab like snippets behavior.
-  "imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-
-  " Recommended key-mappings.
-  " <CR>: close popup and save indent.
-  inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-  " <TAB>: completion.
-  " <C-h>, <BS>: close popup and delete backword char.
-  inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-  inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-  inoremap <expr><C-y>  neocomplcache#close_popup()
-  inoremap <expr><C-e>  neocomplcache#cancel_popup()
-
-  "最初に候補を選択する設定。便利だが誤爆しやすい。
-  "let g:neocomplcache_enable_auto_select = 1
+  if !exists('g:neocomplete#force_omni_input_patterns')
+    let g:neocomplete#force_omni_input_patterns = {}
+  endif
+  let g:neocomplete#force_omni_input_patterns.ruby = '[^.*\t]\.\w*\|\h\w*::'
 endif
 "TABでポップアップウィンドウの移動をする
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+
+if isdirectory($HOME . '/.vim/bundle/rsense' )
+  if s:is_cygwin
+    let g:rsenseHome = '/usr/bin/local/rsense'
+  endif
+  let g:rsenseUseOmniFunc = 1
+endif
+
+" syntastic_mode_mapをactiveにするとバッファ保存時にsyntasticが走る
+" active_filetypesに、保存時にsyntasticを走らせるファイルタイプを指定する
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
+let g:syntastic_ruby_checkers = ['rubocop']
 
 " neosnippetの設定
 if isdirectory($HOME . '/.vim/bundle/neosnippet' )
@@ -298,10 +288,6 @@ if isdirectory($HOME . '/.vim/bundle/neosnippet' )
   " Enable snipMate compatibility feature.
   " let g:neosnippet#enable_snipmate_compatibility = 1
 endif
-"rsenseの設定
-if isdirectory($HOME . '/.vim/bundle/neocomplcache-rsense' )
-  let g:neocomplcache#sources#rsense#home_directory = $HOME . '/.vim/rsense'
-endif
 "neocomplete-phpの設定
 "なお、辞書作成する場合は次のコマンドを呼ぶ :PhpMakeDict
 if isdirectory($HOME . '/.vim/bundle/neocomplete-php.vim' )
@@ -316,22 +302,6 @@ if isdirectory($HOME . '/.vim/bundle/nerdcommenter' )
   :map ,, <Plug>NERDCommenterToggle
   " :map ,m <Plug>NERDCommenterAppend
   " :map ,. <Plug>NERDCommenterSexy
-endif
-if isdirectory($HOME . '/.vim/bundle/evervim' )
-  nnoremap <silent> ,el :<C-u>EvervimNotebookList<CR>
-  " nnoremap <silent> ,eT :<C-u>EvervimListTags<CR>
-  nnoremap <silent> ,en :<C-u>EvervimCreateNote<CR>
-  " nnoremap <silent> ,eb :<C-u>EvervimOpenBrowser<CR>
-  " nnoremap <silent> ,ec :<C-u>EvervimOpenClient<CR>
-  nnoremap ,es :<C-u>EvervimSearchByQuery<SPACE>
-  "タスク用ノートを開く
-  nnoremap <silent> ,et :<C-u>EvervimSearchByQuery<SPACE>notebook:"Tasks"<CR>
-  " nnoremap <silent> ,et :<C-u>EvervimSearchByQuery<SPACE>tag:todo -tag:done -tag:someday<CR>
-  " nnoremap <silent> ,eta :<C-u>EvervimSearchByQuery<SPACE>tag:todo -tag:done<CR>
-  " nnoremap <silent> ,em :<C-u>EvervimSearchByQuery<SPACE>tag:todo -tag:done<CR>
-  "vがデフォ。vspになる
-  "let evervim_splitoption=''
-  "let g:evervim_devtoken= は .vimrc.localにある
 endif
 if isdirectory($HOME . '/.vim/bundle/lightline.vim' )
   let g:lightline = {
