@@ -1,0 +1,7 @@
+*myvim.txt*
+
+自分の vimrc に設定されているキーバインドなどのチートシート
+
+|myvim-unite| Uniteの設定
+
+* [SPACE u u] 使ったことあるファイルを開く
