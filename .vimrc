@@ -8,6 +8,11 @@ let s:is_unix     =  has('unix')
 let s:is_cygwin   =  has('win32unix')
 let s:is_cui      = !has('gui_running')
 
+"エンコーディング設定
+set encoding=utf-8
+set fileencodings=utf-8,iso-2022-jp,enc-jp,sjis,cp932
+set fileformats=unix,dos,mac
+
 "----------------------------------------------------------------------------
 " インストールするプラグインの設定
 "----------------------------------------------------------------------------
@@ -22,8 +27,6 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neomru.vim'
 "async process
 NeoBundle 'Shougo/vimproc'
-"ファイラ
-NeoBundle 'Shougo/Vimfiler.vim'
 "補完
 NeoBundle 'Shougo/neocomplete'
 "php補完拡張
@@ -92,7 +95,6 @@ helptags $HOME/.vim/doc/
 "----------------------------------------------------------------------------
 " 基本設定
 "----------------------------------------------------------------------------
-set encoding=utf8               "エンコーディング設定
 set nobackup                    "バックアップファイルのディレクトリを指定する
 set noswapfile                  "スワップファイル用のディレクトリを指定する
 set hidden                      "複数ファイルの編集を可能にする
@@ -123,9 +125,10 @@ if s:is_cygwin
 endif
 
 "カラースキーム
-syntax enable
-set background=dark
-colorscheme solarized
+if isdirectory($HOME . '/.vim/bundle/vim-colors-solarized' )
+  set background=dark
+  colorscheme solarized
+endif
 
 "----------------------------------------------------------------------------
 "ターミナル設定

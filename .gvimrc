@@ -1,7 +1,9 @@
 "色のテーマ指定
 gui
-set background=dark
-colorscheme solarized
+if isdirectory($HOME . '/.vim/bundle/vim-colors-solarized' )
+  set background=dark
+  colorscheme solarized
+endif
 
 "ツールウィンドウを消す
 set guioptions-=T
