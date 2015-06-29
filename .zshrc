@@ -4,8 +4,7 @@
 ########################################
 # 環境変数
 export LANG=ja_JP.UTF-8
-
-PATH=/usr/local/bin:$HOME/.cabal/bin:$PATH
+export PATH=/usr/local/bin:$HOME/.cabal/bin:$HOME/.rbenv/bin:$PATH
 
 # 色を使用出来るようにする
 autoload -Uz colors
@@ -183,4 +182,5 @@ esac
 # ローカル環境があれば読み込み
 [ -f $HOME/.zshrc_local ] && . $HOME/.zshrc_local
 
+eval "$(rbenv init -)"
 # vim:set ft=zsh:

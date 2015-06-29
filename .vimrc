@@ -32,8 +32,12 @@ NeoBundle 'Shougo/neocomplete'
 "php補完拡張
 NeoBundle 'violetyk/neocomplete-php.vim', { 'autoload' : { 'filetype' : ['php'], }, }
 "ruby拡張
-NeoBundle 'marcus/rsense'
-NeoBundle 'supermomonga/neocomplete-rsense.vim'
+NeoBundleLazy 'marcus/rsense', {
+          \ 'autoload' : { 'filetypes' : 'ruby' },
+          \ }
+NeoBundle 'supermomonga/neocomplete-rsense.vim', {
+          \ 'depends': ['Shougo/neocomplete', 'marcus/rsense'],
+          \ }
 " 静的解析
 NeoBundle 'scrooloose/syntastic'
 "リファレンス
@@ -258,9 +262,9 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 if isdirectory($HOME . '/.vim/bundle/rsense' )
-  if s:is_cygwin
-    let g:rsenseHome = '/usr/bin/local/rsense'
-  endif
+"  if s:is_cygwin
+"    let g:rsenseHome = '/usr/bin/local/rsense'
+"  endif
   let g:rsenseUseOmniFunc = 1
 endif
 
