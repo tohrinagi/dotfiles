@@ -19,8 +19,11 @@ set fileformats=unix,dos,mac
 if has('vim_starting')
   set runtimepath+=~/dotfiles/.vim/bundle/neobundle.vim/
 endif
-call neobundle#rc(expand('~/dotfiles/.vim/bundle/'))
+call neobundle#rc(expand('~/dotfiles/.vim/bundle'))
 
+NeoBundleFetch 'Shougo/neobundle.vim'
+" 静的解析
+NeoBundle 'scrooloose/syntastic'
 "Unite
 NeoBundle 'Shougo/unite.vim'
 "unite extention
