@@ -250,9 +250,18 @@ if isdirectory($HOME . '/.vim/bundle/unite.vim' )
   nnoremap <silent> [unite]y :<C-u>Unite history/yank<CR>
   nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
   nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file -default-action=tabopen<CR>
-  nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
   nnoremap <silent> [unite]u :<C-u>Unite file_mru buffer -default-action=tabopen<CR>
   nnoremap <silent> [unite]p :<C-u>Unite file_rec/async:!<CR>
+  nnoremap <silent> [unite]rc :<C-u>Unite rails/controller<CR>
+  nnoremap <silent> [unite]rv :<C-u>Unite rails/view<CR>
+  nnoremap <silent> [unite]rm :<C-u>Unite rails/model<CR>
+  "以下unite-rails
+  nnoremap <silent> [unite]rh :<C-u>Unite rails/helper<CR>
+  nnoremap <silent> [unite]rs :<C-u>Unite rails/stylesheet<CR>
+  nnoremap <silent> [unite]rj :<C-u>Unite rails/javascript<CR>
+  nnoremap <silent> [unite]rr :<C-u>Unite rails/route<CR>
+  nnoremap <silent> [unite]rg :<C-u>Unite rails/gemfile<CR>
+  nnoremap <silent> [unite]rs :<C-u>Unite rails/spec<CR>
 
 endif
 if neobundle#is_installed('neocomplete')
