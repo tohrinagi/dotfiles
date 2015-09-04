@@ -1,7 +1,7 @@
 "----------------------------------------------------------------------------
 " 基本設定
 "----------------------------------------------------------------------------
-set clipboard+=unnamed,autoselect          "クリップボードOSと連携する
+set clipboard=unnamed,autoselect          "クリップボードOSと連携する
 set backspace=indent,eol,start  "バックスペースでインデントや改行を削除できるようにする
 set wildmenu
 set cursorline                  "カーソルラインを表示する
