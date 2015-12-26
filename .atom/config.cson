@@ -1,0 +1,27 @@
+"*":
+  editor:
+    fontFamily: "\"Ricty\""
+    fontSize: 18
+    invisibles: {}
+    softWrap: true
+    softWrapAtPreferredLineLength: true
+  core:
+    themes: [
+      "atom-dark-ui"
+      "solarized-dark-syntax"
+    ]
+    disabledPackages: [
+      "vim-mode-plus"
+    ]
+  "markdown-preview": {}
+  "exception-reporting":
+    userId: "69a504e3-ec78-e2d4-0042-a64105b3fc2e"
+  welcome:
+    showOnStartup: false
+  "vim-mode":
+    useClipboardAsDefaultRegister: true
+    wrapLeftRightMotion: true
+  "vim-mode-plus": {}
+  "linter-ruby": {}
+  "keyboard-localization":
+    useKeyboardLayout: "ja_JP"
