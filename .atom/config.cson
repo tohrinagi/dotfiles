@@ -5,6 +5,8 @@
     invisibles: {}
     softWrap: true
     softWrapAtPreferredLineLength: true
+    showIndentGuide: true
+    showInvisibles: true
   core:
     themes: [
       "atom-dark-ui"
@@ -25,3 +27,6 @@
   "linter-ruby": {}
   "keyboard-localization":
     useKeyboardLayout: "ja_JP"
+  "vim-surround": {}
+  "one-light-ui": {}
+  "atom-beautify": {}
