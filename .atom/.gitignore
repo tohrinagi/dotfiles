@@ -1,6 +1,7 @@
-storage/
-paclages/
+storage
+packages
 compile-cache
+blob-store
 dev
 projects.cson
 .apm
