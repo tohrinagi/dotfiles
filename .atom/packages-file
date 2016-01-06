@@ -5,6 +5,7 @@ autocomplete-ruby@0.1.0
 clipboard-plus@0.5.1
 coffee-compile@0.21.0
 color-picker@2.0.14
+editorconfig@1.2.2
 ex-mode@0.7.0
 file-icons@1.6.13
 git-control@0.4.0

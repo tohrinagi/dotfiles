@@ -1,6 +1,6 @@
-DOT_FILES = .zshrc .vimrc .vim .gvimrc .vsvimrc .xvimrc .atom .tmux.conf
+DOT_FILES = .zshrc .vimrc .vim .gvimrc .vsvimrc .xvimrc .atom .tmux.conf .editorconfig
 
-all: zsh vim gvim vsvim xvim atom tmux
+all: zsh vim gvim vsvim xvim atom tmux editorconfig
 
 zsh: $(foreach f, $(filter .zsh%, $(DOT_FILES)), link-dot-file-$(f))
 
@@ -15,6 +15,8 @@ xvim: $(foreach f, $(filter .xvimrc, $(DOT_FILES)), link-dot-file-$(f))
 atom: $(foreach f, $(filter .atom%, $(DOT_FILES)), link-dot-file-$(f))
 
 tmux: $(foreach f, $(filter .tmux.conf, $(DOT_FILES)), link-dot-file-$(f))
+
+editorconfig: $(foreach f, $(filter .editorconfig, $(DOT_FILES)), link-dot-file-$(f))
 
 .PHONY: clean
 clean: $(foreach f, $(DOT_FILES), unlink-dot-file-$(f))

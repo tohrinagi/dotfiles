@@ -76,16 +76,18 @@ NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'kannokanno/previm'
 NeoBundle 'tyru/open-browser.vim'
 "Ruby
-NeoBundle 'yuku-t/vim-ref-ri'
-NeoBundleLazy 'marcus/rsense', {
-          \ 'autoload' : { 'filetypes' : 'ruby' },
-          \ }
-NeoBundle 'supermomonga/neocomplete-rsense.vim', {
-          \ 'depends': ['Shougo/neocomplete', 'marcus/rsense'],
-          \ }
+"NeoBundle 'yuku-t/vim-ref-ri'
+"NeoBundleLazy 'marcus/rsense', {
+"          \ 'autoload' : { 'filetypes' : 'ruby' },
+"          \ }
+"NeoBundle 'supermomonga/neocomplete-rsense.vim', {
+"          \ 'depends': ['Shougo/neocomplete', 'marcus/rsense'],
+"          \ }
 "Rails
 NeoBundle 'basyura/unite-rails'
 NeoBundle 'tpope/vim-rails'
+NeoBundle 'editorconfig/editorconfig-vim'
+
 
 syntax enable
 filetype indent on
@@ -272,7 +274,7 @@ if neobundle#is_installed('neocomplete')
   if !exists('g:neocomplete#force_omni_input_patterns')
     let g:neocomplete#force_omni_input_patterns = {}
   endif
-  let g:neocomplete#force_omni_input_patterns.ruby = '[^.*\t]\.\w*\|\h\w*::'
+  "let g:neocomplete#force_omni_input_patterns.ruby = '[^.*\t]\.\w*\|\h\w*::'
 endif
 "TABでポップアップウィンドウの移動をする
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -287,8 +289,8 @@ endif
 
 " syntastic_mode_mapをactiveにするとバッファ保存時にsyntasticが走る
 " active_filetypesに、保存時にsyntasticを走らせるファイルタイプを指定する
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
-let g:syntastic_ruby_checkers = ['rubocop']
+"let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
+"let g:syntastic_ruby_checkers = ['rubocop']
 
 " neosnippetの設定
 if isdirectory($HOME . '/.vim/bundle/neosnippet' )
