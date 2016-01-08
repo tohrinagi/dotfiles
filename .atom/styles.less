@@ -1,5 +1,6 @@
 .tree-view {
  font-family: "Ricty";
+ font-size: 13px;
 }
 
 atom-text-editor {
@@ -9,15 +10,17 @@ atom-text-editor {
 
 atom-text-editor .cursor {
 }
-.markdown-preview {
+
+.markdown-preview.markdown-preview {
   @c_border: #666; // border-color
 
-  font-family: "Ricty";
   max-width: 900px;
   margin: 0 auto;
   padding: 25px;
   color: black;
   background-color: #FFFFFF;
+  font-family: "Ricty";
+  font-size: 17px;
   hr {
     margin: 50px 0;
     background-color: transparent;
@@ -36,15 +39,17 @@ atom-text-editor .cursor {
     }
   }
   h1, h2, h3, h4, h5 {
-    font-weight: normal;
+    font-weight: bold;
     border-color: @c_border;
+    color: black;
   }
   h1 {
     font-size: 35px;
     border: none;
     margin: 30px auto;
     text-align: center;
-    letter-spacing: 5px
+    letter-spacing: 5px;
+    font-weight: bold;
   }
   h2 {
     font-size: 25px;
@@ -54,7 +59,7 @@ atom-text-editor .cursor {
   h3 {
     font-size: 18px;
     font-weight: bold;
-    margin-bottom: 10px
+    margin-bottom: 10px;
   }
   // 僕の用途ではh4以降は基本的に必要ないので、
   // 設定していません。
@@ -62,10 +67,12 @@ atom-text-editor .cursor {
   // 見出し以外のタグを字下げする
   // ぱっと思いつく、よく使うタグを指定
   p, table, ul, ol, dl, pre, blockquote {
-    font-size: 17px;
     margin-left: 25px;
     ul, ol, dl {
       margin-left: 0px;
+    }
+    strong {
+      color: black;
     }
   }
   table {
@@ -74,14 +81,12 @@ atom-text-editor .cursor {
     max-width: 800px;
     th {
       text-align: center;
-      //background-color: #eee;
+      background-color: #eee;
       border-color: @c_border;
+      color: black;
     }
     tr {
       border-top: #666;
-    }
-    td {
-      border-color: @c_border;
     }
   }
   .margin-clear {
