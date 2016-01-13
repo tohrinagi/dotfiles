@@ -74,11 +74,16 @@ atom-text-editor .cursor {
     strong {
       color: black;
     }
+    a {
+      color: black;
+      text-decoration: underline;
+    }
   }
   table {
     border-collapse: collapse;
     border-spacing: 0;
     max-width: 800px;
+    border-color: @c_border;
     th {
       text-align: center;
       background-color: #eee;
@@ -87,6 +92,9 @@ atom-text-editor .cursor {
     }
     tr {
       border-top: #666;
+    }
+    td {
+      border-color: @c_border;
     }
   }
   .margin-clear {

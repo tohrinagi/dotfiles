@@ -1,7 +1,7 @@
 "*":
   editor:
     fontFamily: "\"Ricty\""
-    fontSize: 18
+    fontSize: 21
     invisibles: {}
     softWrap: true
     softWrapAtPreferredLineLength: true
