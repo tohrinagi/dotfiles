@@ -184,3 +184,4 @@ esac
 
 eval "$(rbenv init -)"
 # vim:set ft=zsh:
+export PATH="$HOME/.rbenv/bin:$PATH"

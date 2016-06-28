@@ -17,9 +17,9 @@ set fileformats=unix,dos,mac
 " インストールするプラグインの設定
 "----------------------------------------------------------------------------
 if has('vim_starting')
-  set runtimepath+=~/dotfiles/.vim/bundle/neobundle.vim/
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
-call neobundle#rc(expand('~/dotfiles/.vim/bundle'))
+call neobundle#rc(expand('~/.vim/bundle'))
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 " 静的解析
@@ -123,6 +123,7 @@ set vb t_vb=                    "ビープ音使用しない
 set whichwrap=b,s,h,l,<,>,[,],~     "特定のキーに行頭および行末の回りこみ移動を許可する設定
 set wrap                        "行のおりかえし
 set showcmd                     " タイプ途中のコマンドを画面最下行に表示
+set noundofile                  " .unファイルを作らない
 
 "----------------------------------------------------------------------------
 "カラー設定
