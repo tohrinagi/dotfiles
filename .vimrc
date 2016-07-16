@@ -87,6 +87,8 @@ NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'basyura/unite-rails'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'editorconfig/editorconfig-vim'
+"coffee
+NeoBundle 'kchmck/vim-coffee-script'
 
 
 syntax enable
@@ -434,3 +436,5 @@ if isdirectory($HOME . '/.vim/bundle/w3m.vim' )
   CAlterCommand wbwiki W3mTab wikipedia
   CAlterCommand wbphp W3mTab php
 endif
+"vim-coffee-script
+au BufRead,BufNewFile,BufReadPre *.coffee   set filetype=coffee
